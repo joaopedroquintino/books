@@ -64,13 +64,11 @@ class HttpDio extends Http {
         final Map<String, dynamic> body =
             e.response!.data as Map<String, dynamic>;
         if (body.containsKey('errors')) {
-          final List<Map<String, dynamic>> errors =
-              List.castFrom<dynamic, Map<String, dynamic>>(
-            body['errors'] as List,
-          );
+          final Map<String, dynamic> errors =
+              body['errors'] as Map<String, dynamic>;
+
           throw AppException(
-            message: errors[0]['message'] as String,
-            code: errors[0]['code'] as String,
+            message: errors['message'] as String,
           );
         }
       }

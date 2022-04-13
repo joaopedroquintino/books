@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import '../../../packages/ds/app_ds.dart';
+import '../../../packages/ds/app_system.dart';
 import '../../splash/splash_routing.dart';
 
 class AppWidget extends StatefulWidget {

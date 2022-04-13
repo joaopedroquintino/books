@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../app/app_routing.dart';
+import 'presentation/splash/cubits/splash_cubit.dart';
+import 'presentation/splash/splash_page.dart';
 
 class SplashRouting {
   SplashRouting();
@@ -9,7 +10,9 @@ class SplashRouting {
   static final List<ModularRoute> routes = <ModularRoute>[
     ChildRoute<void>(
       SplashRouteNamed.splash._path,
-      child: (_, args) => const Scaffold(),
+      child: (_, args) => SplashPage(
+        cubit: Modular.get<SplashCubit>(),
+      ),
     )
   ];
 }

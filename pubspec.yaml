@@ -21,6 +21,10 @@ dependencies:
   flutter_screenutil: ^5.3.1
   sembast: ^3.2.0
   path_provider: ^2.0.9
+  equatable: ^2.0.3
+  flutter_bloc: ^8.0.1
+  flutter_svg: ^1.0.3
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +37,26 @@ flutter:
 
   uses-material-design: true
 
+  assets:
+    - assets/images/
+
+  fonts:
+   - family: Heebo
+     fonts:
+       - asset: assets/fonts/heebo/Heebo-Regular.ttf
+       - asset: assets/fonts/heebo/Heebo-Medium.ttf
+         weight: 500
+       - asset: assets/fonts/heebo/Heebo-SemiBold.ttf
+         weight: 600
+       - asset: assets/fonts/heebo/Heebo-Bold.ttf
+         weight: 700
+       - asset: assets/fonts/heebo/Heebo-ExtraBold.ttf
+         weight: 800       
+       - asset: assets/fonts/heebo/Heebo-Black.ttf
+         weight: 900
+       - asset: assets/fonts/heebo/Heebo-Light.ttf
+         weight: 300
+       - asset: assets/fonts/heebo/Heebo-ExtraLight.ttf
+         weight: 200
+       - asset: assets/fonts/heebo/Heebo-Thin.ttf
+         weight: 100

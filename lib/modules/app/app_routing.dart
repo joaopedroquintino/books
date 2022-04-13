@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../login/login_module.dart';
 import '../splash/splash_module.dart';
 
 class AppRouting {
@@ -13,7 +14,7 @@ class AppRouting {
       ),
       ModuleRoute<void>(
         AppRouteNamed.login._path,
-        module: SplashModule(),
+        module: LoginModule(),
       ),
     ];
   }
