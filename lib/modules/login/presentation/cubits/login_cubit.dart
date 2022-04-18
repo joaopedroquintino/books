@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/domain/usecases/usecase.dart';
@@ -19,11 +20,11 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> authenticate() async {
     if (!isEmailValid) {
-      emit(LoginErrorState(emailError: 'E-mail inválido.'));
+      emit(const LoginErrorState(emailError: 'E-mail inválido.'));
       return;
     }
     if (!isPasswordValid) {
-      emit(LoginErrorState(passwordError: 'Senha inválida.'));
+      emit(const LoginErrorState(passwordError: 'Senha inválida.'));
       return;
     }
     final loginParams = LoginEntity(email: email!, password: password!);
