@@ -5,6 +5,7 @@ class AppColor {
   Color get primary => const Color(0xFF39154B);
   Color get secondary => const Color(0xFFAB2680);
   Color get onPrimary => const Color(0xFFFFFFFF);
+  Color get tertiary => const Color(0xFFF5EFF3);
 
   Color get accent => const Color(0xFF958F8F);
   Color get background => const Color(0XFFFFFFFF);

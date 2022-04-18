@@ -1,6 +1,10 @@
 import '../../packages/ds/app_system.dart';
 
 class LogoCustomPainter extends CustomPainter {
+  LogoCustomPainter({this.color});
+
+  final Color? color;
+
   @override
   void paint(Canvas canvas, Size size) {
     final Path path_0 = Path();
@@ -1072,7 +1076,7 @@ class LogoCustomPainter extends CustomPainter {
     path_0.close();
 
     final Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Colors.white.withOpacity(1.0);
+    paint0Fill.color = color ?? AppDS.color.white;
     canvas.drawPath(path_0, paint0Fill);
   }
 

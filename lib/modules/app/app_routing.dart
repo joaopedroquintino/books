@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../home/home_module.dart';
 import '../login/login_module.dart';
 import '../splash/splash_module.dart';
 
@@ -16,6 +17,10 @@ class AppRouting {
         AppRouteNamed.login._path,
         module: LoginModule(),
       ),
+      ModuleRoute<void>(
+        AppRouteNamed.home._path,
+        module: HomeModule(),
+      ),
     ];
   }
 }
@@ -23,6 +28,7 @@ class AppRouting {
 enum AppRouteNamed {
   splash,
   login,
+  home,
 }
 
 extension AppRouteNamedExtension on AppRouteNamed {
@@ -33,6 +39,8 @@ extension AppRouteNamedExtension on AppRouteNamed {
 
       case AppRouteNamed.login:
         return '/login';
+      case AppRouteNamed.home:
+        return '/home';
       default:
         return '/';
     }

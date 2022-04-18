@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import '../../packages/ds/app_system.dart';
-import '../logo/books_logo.dart';
 
 class AppLoadingWidget extends StatefulWidget {
   const AppLoadingWidget({Key? key}) : super(key: key);

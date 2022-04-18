@@ -34,7 +34,7 @@ class AppFont {
       );
 
   TextStyle get body => TextStyle(
-        height: 1.5,
+        height: 1.3,
         fontSize: 14.sp,
         fontWeight: FontWeight.w400,
         color: AppDS.color.contrast,
@@ -50,7 +50,7 @@ class AppFont {
       );
 
   TextStyle get bodyLarge => TextStyle(
-        height: 1.5,
+        height: 1.1,
         fontSize: 16.sp,
         fontWeight: FontWeight.w700,
         color: AppDS.color.contrast,
@@ -109,7 +109,7 @@ class AppFont {
   TextStyle get caption => TextStyle(
         height: 1.5,
         fontSize: 12.sp,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         color: AppDS.color.contrast,
         leadingDistribution: TextLeadingDistribution.even,
       );

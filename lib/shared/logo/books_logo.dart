@@ -77,7 +77,7 @@ class BooksLogo extends StatelessWidget {
   List<Widget> get widgetList => [
         CustomPaint(
           size: _logoSize,
-          painter: LogoCustomPainter(),
+          painter: LogoCustomPainter(color: color),
         ),
         SizedBox(width: AppDS.spacing.hsmall.w),
         Text(

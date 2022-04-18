@@ -1,11 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../packages/ds/app_system.dart';
 import '../../../shared/loading/loading_page.dart';
 import '../../../shared/logo/books_logo.dart';
-import '../../../shared/popup/app_popup.dart';
 import '../../../ui/button/app_button.dart';
 import '../../../ui/input/text_field_widget.dart';
+import '../../home/home_routing.dart';
 import 'cubits/login_cubit.dart';
 
 class LoginPage extends StatefulWidget {
@@ -142,11 +143,7 @@ class _LoginPageState extends State<LoginPage>
           AppLoadingPage.instance.start(context);
         }
         if (state is LoginSuccessState) {
-          AppPopUp.instance.show(
-            context,
-            title: 'Oba!',
-            message: 'Login realizado com sucesso!\n Aguarde a home page',
-          );
+          Modular.to.navigate(HomeRouteNamed.home.fullPath);
         }
       },
     );

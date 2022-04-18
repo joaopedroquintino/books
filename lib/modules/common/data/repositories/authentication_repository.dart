@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart';
+
+import '../../../../shared/errors/app_failure.dart';
 import '../../../login/domain/repositories/authentication_repository.dart';
 import '../../domain/entities/authentication_entity.dart';
 import '../../domain/repositories/authentication_datasource.dart';
@@ -10,29 +13,29 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final AuthenticationDatasource authenticationDatasource;
 
   @override
-  Future<AuthenticationEntity?> getAuthentication() async {
+  Future<Either<AppFailure, AuthenticationEntity>> getAuthentication() async {
     try {
       final result = await authenticationDatasource.getAuthentication();
       if (result != null) {
-        return AuthenticationEntity(
+        return Right(AuthenticationEntity(
           authorization: result.authorization,
           refreshToken: result.refreshToken,
-        );
+        ));
       } else {
-        return null;
+        return const Left(AppFailure());
       }
     } catch (e) {
-      rethrow;
+      return const Left(AppFailure());
     }
   }
 
   @override
-  Future<bool> removeAuthentication() async {
+  Future<Either<AppFailure, bool>> removeAuthentication() async {
     try {
       final result = await authenticationDatasource.deleteAuthentication();
-      return result;
+      return Right(result);
     } catch (e) {
-      rethrow;
+      return const Left(AppFailure());
     }
   }
 }

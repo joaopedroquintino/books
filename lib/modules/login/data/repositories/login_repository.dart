@@ -31,7 +31,7 @@ class LoginRepositoryImpl implements LoginRepository {
       final result = await loginDatasource.authenticate(loginDTO);
       if (result != null && result is DataSuccess) {
         final authenticationDTO = AuthenticationDTO.fromJson(result.headers!);
-        final user = UserModel.fromJson(result.body!);
+        UserModel.fromJson(result.body!);
 
         await authenticationDatasource.deleteAuthentication();
         await authenticationDatasource.saveAuthentication(authenticationDTO);
@@ -41,7 +41,7 @@ class LoginRepositoryImpl implements LoginRepository {
         return Left(AppFailure(message: result.message));
       }
     } catch (e) {
-      return Left(AppFailure(message: 'Saving Error'));
+      return const Left(AppFailure(message: 'Saving Error'));
     }
   }
 }

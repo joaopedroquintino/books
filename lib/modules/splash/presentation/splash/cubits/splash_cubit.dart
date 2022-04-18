@@ -15,15 +15,10 @@ class SplashCubit extends Cubit<SplashState> {
   final UseCase<AuthenticationEntity?, dynamic> getAuthenticationUseCase;
 
   Future<void> verifyUserAuthentication() async {
-    try {
-      final result = await getAuthenticationUseCase();
-      if (result != null) {
-        emit(SplashReadyState(loggedIn: true));
-      } else {
-        emit(SplashReadyState(loggedIn: false));
-      }
-    } catch (e) {
-      emit(SplashReadyState(loggedIn: false));
-    }
+    final result = await getAuthenticationUseCase();
+    result.fold(
+      (_) => emit(SplashReadyState(loggedIn: false)),
+      (_) => emit(SplashReadyState(loggedIn: true)),
+    );
   }
 }
