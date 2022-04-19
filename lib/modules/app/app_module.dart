@@ -6,11 +6,16 @@ import '../../core/api/factories/dio_factory.dart';
 import '../../core/local_storage/local_storage_imp.dart';
 import '../../core/local_storage/secure_storage_imp.dart';
 import '../common/data/datasources/authentication_datasource.dart';
+import '../common/data/datasources/user_datasource.dart';
 import '../common/data/repositories/authentication_repository.dart';
-import '../common/domain/repositories/authentication_datasource.dart';
+import '../common/data/repositories/user_repository.dart';
+import '../common/domain/datasources/authentication_datasource.dart';
+import '../common/domain/datasources/user_datasource.dart';
+import '../common/domain/repositories/authentication_repository.dart';
+import '../common/domain/repositories/user_repository.dart';
+import '../common/domain/usecases/fetch_ser_usecase.dart';
 import '../common/domain/usecases/get_authentication_usecase.dart';
 import '../common/domain/usecases/remove_authentication_usecase.dart';
-import '../login/domain/repositories/authentication_repository.dart';
 import 'app_routing.dart';
 
 class AppModule extends Module {
@@ -39,9 +44,19 @@ class AppModule extends Module {
             localStorage: i.get<LocalStorageImpDao>(),
           ),
         ),
+        Bind.singleton<UserDataSource>(
+          (i) => UserDataSourceImpl(
+            database: i.get<LocalStorageImpDao>(),
+          ),
+        ),
         Bind.singleton<AuthenticationRepository>(
           (i) => AuthenticationRepositoryImpl(
             authenticationDatasource: i.get(),
+          ),
+        ),
+        Bind.singleton<UserRepository>(
+          (i) => UserRepositoryImpl(
+            userDataSource: i.get(),
           ),
         ),
         Bind.singleton<GetAuthenticationUseCase>(
@@ -52,6 +67,11 @@ class AppModule extends Module {
         Bind.singleton<RemoveAuthenticationUseCase>(
           (i) => RemoveAuthenticationUseCase(
             authenticationRepository: i.get(),
+          ),
+        ),
+        Bind.singleton(
+          (i) => FetchUserUseCase(
+            userRepository: i.get(),
           ),
         ),
       ];

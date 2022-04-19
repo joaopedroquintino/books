@@ -1,12 +1,14 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../common/domain/usecases/fetch_ser_usecase.dart';
 import 'data/datasources/home_datasource.dart';
 import 'data/repositories/home_repository.dart';
 import 'domain/datasources/home_datasource.dart';
 import 'domain/repositories/home_repository.dart';
 import 'domain/usecases/fetch_books_usecase.dart';
 import 'home_routing.dart';
-import 'presentation/cubit/home_cubit.dart';
+import 'presentation/cubits/home/home_cubit.dart';
+import 'presentation/cubits/user/user_cubit.dart';
 
 class HomeModule extends Module {
   @override
@@ -29,6 +31,11 @@ class HomeModule extends Module {
         Bind.factory(
           (i) => HomeCubit(
             fetchBooksUseCase: i.get<FetchBooksUseCase>(),
+          ),
+        ),
+        Bind.factory(
+          (i) => UserCubit(
+            fetchUserUseCase: i.get<FetchUserUseCase>(),
           ),
         )
       ];

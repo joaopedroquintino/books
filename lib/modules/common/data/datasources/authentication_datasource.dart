@@ -1,6 +1,6 @@
 import '../../../../core/local_storage/local_storage.dart';
 import '../../../login/data/dto/authentication_dto.dart';
-import '../../domain/repositories/authentication_datasource.dart';
+import '../../domain/datasources/authentication_datasource.dart';
 
 class AuthenticationDatasourceImpl implements AuthenticationDatasource {
   AuthenticationDatasourceImpl({

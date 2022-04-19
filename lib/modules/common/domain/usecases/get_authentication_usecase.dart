@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/domain/usecases/usecase.dart';
 import '../../../../shared/errors/app_failure.dart';
-import '../../../login/domain/repositories/authentication_repository.dart';
+import '../repositories/authentication_repository.dart';
 import '../entities/authentication_entity.dart';
 
 class GetAuthenticationUseCase extends UseCase<AuthenticationEntity, dynamic> {

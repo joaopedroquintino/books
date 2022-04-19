@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../packages/data/interface/data_return.dart';
 import '../../../../shared/errors/app_failure.dart';
 import '../../../common/data/models/paginated_data_model.dart';
 import '../../../common/domain/entities/paginated_data_entity.dart';
@@ -21,12 +22,20 @@ class HomeRepositoryImpl implements HomeRepository {
     try {
       final data = await _datasource.fetchBooks(page);
 
-      final paginatedData = PaginatedDataModel.fromMap(
-        map: data.body!,
-        itemMapper: BookModel.fromMap,
-      );
+      if (data is DataSuccess) {
+        final paginatedData = PaginatedDataModel.fromMap(
+          map: data.body as Map<String, dynamic>,
+          itemMapper: BookModel.fromMap,
+        );
 
-      return Right(paginatedData);
+        return Right(paginatedData);
+      } else {
+        return Left(
+          AppFailure(
+            message: data.message,
+          ),
+        );
+      }
     } catch (e) {
       return const Left(
         AppFailure(message: 'HomeRepository fetchBooks decode error'),

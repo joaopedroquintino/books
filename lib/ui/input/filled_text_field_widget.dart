@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import '../../packages/ds/app_ds.dart';
 import 'input_widget.dart';
 
-class TextFieldWidget extends StatefulWidget {
-  const TextFieldWidget({
+class FilledTextFieldWidget extends StatefulWidget {
+  const FilledTextFieldWidget({
     Key? key,
     this.initialValue,
     this.placeholder,
@@ -47,10 +47,10 @@ class TextFieldWidget extends StatefulWidget {
   final Widget? prefixIcon;
 
   @override
-  State<TextFieldWidget> createState() => _TextFieldWidgetState();
+  State<FilledTextFieldWidget> createState() => _FilledTextFieldWidgetState();
 }
 
-class _TextFieldWidgetState extends State<TextFieldWidget> {
+class _FilledTextFieldWidgetState extends State<FilledTextFieldWidget> {
   late FocusNode _focusNode;
 
   @override
@@ -68,64 +68,11 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
 
   bool get hasFocus => _focusNode.hasFocus;
 
-  Widget errorLabel(BuildContext context) {
-    if (!hasError) {
-      return Container();
-    }
-    return Container(
-      margin: const EdgeInsets.only(top: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Text(
-              widget.messageError!,
-              textAlign: TextAlign.right,
-              softWrap: true,
-              style: TextStyle(
-                color: AppDS.color.error,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 6,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget label(BuildContext context) {
-    if (widget.placeholder == null || !hasFocus) {
-      return const SizedBox();
-    }
-    return Container(
-      margin: const EdgeInsets.only(top: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          const SizedBox(
-            width: 6,
-          ),
-          Expanded(
-            child: Text(
-              widget.placeholder ?? '',
-              textAlign: TextAlign.left,
-              softWrap: true,
-              style: AppDS.fonts.body,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MergeSemantics(
       child: Column(
         children: [
-          label(context),
           InputWidget(
             focusNode: _focusNode,
             initialValue: widget.initialValue,
@@ -152,8 +99,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             autocorrect: widget.autocorrect,
             maxLength: widget.maxLength,
             prefixIcon: widget.prefixIcon,
+            hasBorder: false,
+            backgroundColor: AppDS.color.white,
           ),
-          errorLabel(context)
         ],
       ),
     );

@@ -5,7 +5,7 @@ class AppFont {
         height: 1.2,
         fontSize: 32.sp,
         fontWeight: FontWeight.w300,
-        color: AppDS.color.contrast,
+        color: AppDS.color.black,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
@@ -13,7 +13,7 @@ class AppFont {
         height: 1.18,
         fontSize: 28.sp,
         fontWeight: FontWeight.w300,
-        color: AppDS.color.contrast,
+        color: AppDS.color.black,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
@@ -21,15 +21,15 @@ class AppFont {
         height: 1.18,
         fontSize: 24.sp,
         fontWeight: FontWeight.w300,
-        color: AppDS.color.contrast,
+        color: AppDS.color.black,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
   TextStyle get headline => TextStyle(
         height: 1.3,
         fontSize: 18.sp,
-        fontWeight: FontWeight.w500,
-        color: AppDS.color.contrast,
+        fontWeight: FontWeight.w400,
+        color: AppDS.color.black,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
@@ -37,7 +37,7 @@ class AppFont {
         height: 1.3,
         fontSize: 14.sp,
         fontWeight: FontWeight.w400,
-        color: AppDS.color.contrast,
+        color: AppDS.color.black,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
@@ -45,7 +45,7 @@ class AppFont {
         height: 1.5,
         fontSize: 14.sp,
         fontWeight: FontWeight.w700,
-        color: AppDS.color.contrast,
+        color: AppDS.color.black,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
@@ -53,7 +53,7 @@ class AppFont {
         height: 1.1,
         fontSize: 16.sp,
         fontWeight: FontWeight.w700,
-        color: AppDS.color.contrast,
+        color: AppDS.color.black,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
@@ -61,7 +61,7 @@ class AppFont {
         height: 1.5,
         fontSize: 12.sp,
         fontWeight: FontWeight.w400,
-        color: AppDS.color.contrast,
+        color: AppDS.color.black,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
@@ -69,7 +69,7 @@ class AppFont {
         height: 1.5,
         fontSize: 12.sp,
         fontWeight: FontWeight.w500,
-        color: AppDS.color.contrast,
+        color: AppDS.color.black,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
@@ -102,7 +102,7 @@ class AppFont {
         height: 1.5,
         fontSize: 14.sp,
         fontWeight: FontWeight.w400,
-        color: AppDS.color.contrast,
+        color: AppDS.color.gray,
         leadingDistribution: TextLeadingDistribution.even,
       );
 
@@ -110,7 +110,7 @@ class AppFont {
         height: 1.5,
         fontSize: 12.sp,
         fontWeight: FontWeight.w400,
-        color: AppDS.color.contrast,
+        color: AppDS.color.gray,
         leadingDistribution: TextLeadingDistribution.even,
       );
 }

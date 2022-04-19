@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/domain/usecases/usecase.dart';
-import '../../../common/domain/entities/paginated_data_entity.dart';
-import '../../data/models/book_model.dart';
-import '../../domain/entities/book_entity.dart';
+import '../../../../../core/domain/usecases/usecase.dart';
+import '../../../../common/domain/entities/paginated_data_entity.dart';
+import '../../../data/models/book_model.dart';
+import '../../../domain/entities/book_entity.dart';
 
 part 'home_state.dart';
 

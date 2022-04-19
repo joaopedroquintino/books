@@ -22,6 +22,9 @@ class InputWidget extends StatefulWidget {
     this.maxLines = 1,
     this.autocorrect = true,
     this.maxLength,
+    this.prefixIcon,
+    this.hasBorder = true,
+    this.backgroundColor,
   }) : super(
           key: key,
         );
@@ -43,6 +46,9 @@ class InputWidget extends StatefulWidget {
   final int maxLines;
   final bool autocorrect;
   final int? maxLength;
+  final Widget? prefixIcon;
+  final bool hasBorder;
+  final Color? backgroundColor;
 
   @override
   _InputWidgetState createState() => _InputWidgetState();
@@ -73,55 +79,55 @@ class _InputWidgetState extends State<InputWidget> {
       );
 
   InputDecoration get _errorInputDecoration => InputDecoration(
-        contentPadding: EdgeInsets.only(
-          top: widget.maxLines > 1 ? 20.h : 0,
-          left: 10.w,
-          right: 10.w,
-          bottom: 0,
-        ),
+        fillColor: widget.backgroundColor,
         alignLabelWithHint: true,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: AppDS.color.error,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: AppDS.color.error,
-          ),
-        ),
+        enabledBorder: widget.hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: AppDS.color.error,
+                ),
+              )
+            : InputBorder.none,
+        focusedBorder: widget.hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: AppDS.color.error,
+                ),
+              )
+            : InputBorder.none,
         suffixIcon: widget.isPassword ? _togglePasswordSuffix : null,
+        prefixIcon: widget.prefixIcon,
       );
 
   InputDecoration get _defaultInputDecoration => InputDecoration(
-        contentPadding: EdgeInsets.only(
-          top: widget.maxLines > 1 ? 20.h : 0,
-          left: 10.w,
-          right: 10.w,
-          bottom: 0,
-        ),
+        fillColor: widget.backgroundColor,
         alignLabelWithHint: true,
         hintText: widget.focusNode?.hasFocus ?? false ? '' : widget.placeholder,
         labelStyle: TextStyle(
           color: AppDS.color.contrast,
           fontSize: 18.sp,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDS.borderRadius.small.h),
-          borderSide: BorderSide(
-            color: AppDS.color.accent,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: AppDS.color.accent,
-          ),
-        ),
+        border: widget.hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppDS.borderRadius.small.h),
+                borderSide: BorderSide(
+                  color: AppDS.color.accent,
+                ),
+              )
+            : InputBorder.none,
+        focusedBorder: widget.hasBorder
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: AppDS.color.accent,
+                ),
+              )
+            : InputBorder.none,
         suffixIcon: widget.suffixIcon ??
             (widget.isPassword ? _togglePasswordSuffix : null),
+        prefixIcon: widget.prefixIcon,
       );
 
   @override
@@ -135,26 +141,40 @@ class _InputWidgetState extends State<InputWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-        primaryColor: AppDS.color.primary,
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 4.h),
+            blurRadius: 24.h,
+            spreadRadius: 0,
+            color: AppDS.color.black.withOpacity(.09),
+          ),
+        ],
+        color: AppDS.color.white,
+        borderRadius: BorderRadius.circular(AppDS.borderRadius.small.h),
       ),
-      child: TextFormField(
-        focusNode: widget.focusNode,
-        controller: _controller,
-        obscureText: _isObscured,
-        textInputAction: widget.textInputAction,
-        showCursor: widget.showCursor,
-        inputFormatters: widget.inputFormatters,
-        decoration:
-            widget.isError ? _errorInputDecoration : _defaultInputDecoration,
-        onChanged: widget.onChanged,
-        onEditingComplete: widget.onEditingComplete,
-        onFieldSubmitted: widget.onSubmitted,
-        keyboardType: widget.keyboardType,
-        maxLines: widget.maxLines,
-        autocorrect: widget.autocorrect,
-        maxLength: widget.maxLength,
+      child: Theme(
+        data: ThemeData(
+          primaryColor: AppDS.color.primary,
+        ),
+        child: TextFormField(
+          focusNode: widget.focusNode,
+          controller: _controller,
+          obscureText: _isObscured,
+          textInputAction: widget.textInputAction,
+          showCursor: widget.showCursor,
+          inputFormatters: widget.inputFormatters,
+          decoration:
+              widget.isError ? _errorInputDecoration : _defaultInputDecoration,
+          onChanged: widget.onChanged,
+          onEditingComplete: widget.onEditingComplete,
+          onFieldSubmitted: widget.onSubmitted,
+          keyboardType: widget.keyboardType,
+          maxLines: widget.maxLines,
+          autocorrect: widget.autocorrect,
+          maxLength: widget.maxLength,
+        ),
       ),
     );
   }
