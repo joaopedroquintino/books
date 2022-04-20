@@ -13,19 +13,22 @@ class DioFactory {
   static Dio instance({
     required UseCase<AuthenticationEntity, dynamic> getAuthenticationUseCase,
     required UseCase<bool, dynamic> removeAuthenticationUseCase,
+    required UseCase<AuthenticationEntity, dynamic> refreshTokenUseCase,
   }) {
     final Dio dio = Dio()
       ..options.baseUrl = _baseUrl
       ..options.connectTimeout = 15000
       ..options.receiveTimeout = 15000
       ..options.contentType = Headers.jsonContentType
-      ..interceptors.add(HttpFormatter())
-      ..interceptors.add(
-        AuthenticationInterceptor(
-          getAuthenticationUseCase: getAuthenticationUseCase,
-          removeAuthenticationUseCase: removeAuthenticationUseCase,
-        ),
-      );
+      ..interceptors.add(HttpFormatter());
+    dio.interceptors.add(
+      AuthenticationInterceptor(
+        getAuthenticationUseCase: getAuthenticationUseCase,
+        removeAuthenticationUseCase: removeAuthenticationUseCase,
+        refreshTokenUseCase: refreshTokenUseCase,
+        dio: dio,
+      ),
+    );
 
     return dio;
   }

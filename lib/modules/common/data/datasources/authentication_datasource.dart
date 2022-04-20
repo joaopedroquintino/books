@@ -1,4 +1,7 @@
+import '../../../../core/api/errors/app_exception.dart';
+import '../../../../core/api/interface/http.dart';
 import '../../../../core/local_storage/local_storage.dart';
+import '../../../../packages/data/interface/data_return.dart';
 import '../../../login/data/dto/authentication_dto.dart';
 import '../../domain/datasources/authentication_datasource.dart';
 
@@ -12,6 +15,8 @@ class AuthenticationDatasourceImpl implements AuthenticationDatasource {
   final LocalStorage _secureDb;
   final LocalStorage _db;
   String collectionName = 'authentication';
+
+  static const String refreshTokenUrl = '/auth/refresh-token';
 
   @override
   Future<AuthenticationDTO?> getAuthentication() async {
@@ -66,5 +71,10 @@ class AuthenticationDatasourceImpl implements AuthenticationDatasource {
         },
       );
     }
+  }
+
+  @override
+  Future<DataReturn> refreshToken() async {
+    return DataSuccess(body: {});
   }
 }
