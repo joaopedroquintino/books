@@ -35,6 +35,7 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },
+        behavior: HitTestBehavior.translucent,
         child: SafeArea(
           child: Column(
             children: [
@@ -87,9 +88,12 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
                         },
                       ),
                     ),
-                    const FilledTextFieldWidget(
+                    FilledTextFieldWidget(
                       placeholder: 'Buscar livro',
-                      prefixIcon: Icon(CupertinoIcons.search),
+                      prefixIcon: const Icon(CupertinoIcons.search),
+                      onChanged: (text) {
+                        cubit.searchBooks(text);
+                      },
                     ),
                     SizedBox(height: AppDS.spacing.xsmall.h),
                   ],

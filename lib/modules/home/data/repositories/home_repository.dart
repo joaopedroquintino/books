@@ -17,10 +17,12 @@ class HomeRepositoryImpl implements HomeRepository {
   final HomeDataSource _datasource;
 
   @override
-  Future<Either<AppFailure, PaginatedDataEntity<BookEntity>>> fetchBooks(
-      [int? page]) async {
+  Future<Either<AppFailure, PaginatedDataEntity<BookEntity>>> fetchBooks({
+    int? page,
+    String? search,
+  }) async {
     try {
-      final data = await _datasource.fetchBooks(page);
+      final data = await _datasource.fetchBooks(page: page, search: search);
 
       if (data is DataSuccess) {
         final paginatedData = PaginatedDataModel.fromMap(

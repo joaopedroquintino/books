@@ -8,14 +8,14 @@ class HomeDataSourceImpl implements HomeDataSource {
 
   final Http _http;
 
-  static String booksUrl(int? page) =>
-      '/books?ammount=25${page != null ? '&page=$page' : ''}';
+  static String booksUrl(int? page, String? search) =>
+      '/books?ammount=25${page != null ? '&page=$page' : ''}${(search?.isNotEmpty ?? false) ? '&page=$search' : ''}';
 
   @override
-  Future<DataReturn> fetchBooks([int? page]) async {
+  Future<DataReturn> fetchBooks({int? page, String? search}) async {
     try {
       final response = await _http.get<Map<String, dynamic>>(
-        booksUrl(page),
+        booksUrl(page, search),
       );
 
       return DataSuccess(body: response.body);
