@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../shared/errors/app_failure.dart';
-import '../../domain/repositories/authentication_repository.dart';
 import '../../domain/datasources/authentication_datasource.dart';
 import '../../domain/entities/authentication_entity.dart';
+import '../../domain/repositories/authentication_repository.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   AuthenticationRepositoryImpl({
