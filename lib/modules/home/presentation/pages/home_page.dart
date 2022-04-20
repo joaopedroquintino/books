@@ -6,9 +6,11 @@ import '../../../../packages/ds/app_system.dart';
 import '../../../../shared/loading/loading_widget.dart';
 import '../../../../shared/logo/books_logo.dart';
 import '../../../../ui/input/filled_text_field_widget.dart';
+import '../../home_routing.dart';
 import '../cubits/home/home_cubit.dart';
 import '../cubits/user/user_cubit.dart';
 import '../widgets/book_card.dart';
+import 'book_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -138,7 +140,21 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
                                       return SizedBox(
                                         height: 160.h,
                                         width: double.infinity,
-                                        child: BookCard(book: _books[index]),
+                                        child: BookCard(
+                                          book: _books[index],
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    AppDS.color.transparent,
+                                                context: context,
+                                                builder: (context) {
+                                                  return BookDetailsPage(
+                                                    id: _books[index].id,
+                                                  );
+                                                });
+                                          },
+                                        ),
                                       );
                                     }),
                               ),

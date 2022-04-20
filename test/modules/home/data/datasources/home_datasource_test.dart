@@ -54,4 +54,42 @@ Future<void> main() async {
       verifyNoMoreInteractions(_mockHttp);
     });
   });
+
+  group('HomeDataSource fetchBookDetails', () {
+    final dataSuccess = DataSuccess(body: {});
+    const errorMessage = 'Infelizmente, algo deu errado.';
+    const bookId = 'asd';
+
+    test('should return DataSuccess when calling fetchBooks successfully',
+        () async {
+      when(
+        () => _mockHttp.get<Map<String, dynamic>>(any()),
+      ).thenAnswer(
+          (invocation) async => HttpResponse<Map<String, dynamic>>(body: {}));
+
+      final result = await _datasource.fetchBookDetails(bookId);
+
+      expect(result, isA<DataSuccess>());
+      expect(result.body, dataSuccess.body);
+
+      verify(() => _mockHttp.get<Map<String, dynamic>>(
+          HomeDataSourceImpl.bookDetailsUrl(bookId))).called(1);
+      verifyNoMoreInteractions(_mockHttp);
+    });
+
+    test('should return DataError when failing fetchBooks', () async {
+      when(
+        () => _mockHttp.get<Map<String, dynamic>>(any()),
+      ).thenThrow(AppException(message: errorMessage));
+
+      final result = await _datasource.fetchBookDetails(bookId);
+
+      expect(result, isA<DataError>());
+      expect(result.message, errorMessage);
+
+      verify(() => _mockHttp.get<Map<String, dynamic>>(
+          HomeDataSourceImpl.bookDetailsUrl(bookId))).called(1);
+      verifyNoMoreInteractions(_mockHttp);
+    });
+  });
 }

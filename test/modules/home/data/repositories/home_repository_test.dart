@@ -75,6 +75,62 @@ Future<void> main() async {
       verifyNoMoreInteractions(_mockDataSource);
     });
   });
+
+  group('HomeRepository fetchBookDetails', () {
+    const errorMessage = 'Infelizmente, algo deu errado.';
+    final dataSuccess = DataSuccess(body: _bookDetailsReturn);
+    final dataError = DataError(message: errorMessage);
+    final bookModel = BookModel.fromMap(_bookDetailsReturn);
+    const bookId = 'aasdf';
+
+    test(
+        'should return Right<PaginatedDataModel<BookModel>> when calling fetchBookDetails successfully',
+        () async {
+      when(
+        () => _mockDataSource.fetchBookDetails(any()),
+      ).thenAnswer((invocation) async => dataSuccess);
+
+      final result = await _repository.fetchBookDetails(bookId);
+
+      expect(result, Right(bookModel));
+
+      verify(() => _mockDataSource.fetchBookDetails(bookId)).called(1);
+      verifyNoMoreInteractions(_mockDataSource);
+    });
+
+    test('should return Left<AppFailure> on fail fetchBookDetails', () async {
+      when(
+        () => _mockDataSource.fetchBookDetails(any()),
+      ).thenAnswer((invocation) async => dataError);
+
+      final result = await _repository.fetchBookDetails(bookId);
+
+      expect(result, const Left(AppFailure(message: errorMessage)));
+
+      verify(() => _mockDataSource.fetchBookDetails(bookId)).called(1);
+      verifyNoMoreInteractions(_mockDataSource);
+    });
+
+    test(
+        'should return Left<AppFailure> on fail decoding answer from fetchBookDetails',
+        () async {
+      when(
+        () => _mockDataSource.fetchBookDetails(any()),
+      ).thenAnswer((invocation) async => DataSuccess(body: {'data': {}}));
+
+      final result = await _repository.fetchBookDetails(bookId);
+
+      expect(
+        result,
+        const Left(
+          AppFailure(message: 'HomeRepository fetchBookDetails decode error'),
+        ),
+      );
+
+      verify(() => _mockDataSource.fetchBookDetails(bookId)).called(1);
+      verifyNoMoreInteractions(_mockDataSource);
+    });
+  });
 }
 
 final _booksReturn = {
@@ -98,4 +154,20 @@ final _booksReturn = {
   'page': 1,
   'totalPages': 34,
   'totalItems': 674
+};
+
+final _bookDetailsReturn = {
+  'id': '8f41b92c7460b9337660427e',
+  'title': 'A Culpa é das Estrelas',
+  'description':
+      'Hazel foi diagnosticada com câncer aos treze anos e agora, aos dezesseis, sobrevive graças a uma droga revolucionária que detém a metástase em seus pulmões. Ela sabe que sua doença é terminal e passa os dias vendo tevê e lendo Uma aflição imperial, livro cujo autor deixou muitas perguntas sem resposta. ',
+  'authors': ['Jonh Green'],
+  'pageCount': 288,
+  'category': 'Romance',
+  'imageUrl': 'https://d2drtqy2ezsot0.cloudfront.net/Book-0.jpg',
+  'isbn10': '0062856626',
+  'isbn13': '978-0062856623',
+  'language': 'Inglês',
+  'publisher': 'Intrínseca',
+  'published': 2002
 };
