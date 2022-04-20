@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 
 class MockLoginRepository extends Mock implements LoginRepository {}
 
-void main() async {
+Future<void> main() async {
   late MockLoginRepository _mockRepository;
   late LoginUseCase _usecase;
 

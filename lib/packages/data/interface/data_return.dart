@@ -3,7 +3,7 @@ enum DataStatus { success, error }
 abstract class DataReturn {
   DataStatus? status;
   String? message;
-  Map<String, dynamic>? body;
+  dynamic body;
   Map<String, dynamic>? headers;
 }
 
@@ -13,7 +13,7 @@ class DataError implements DataReturn {
   });
 
   @override
-  Map<String, dynamic>? body;
+  dynamic body;
 
   @override
   String? message;
@@ -32,7 +32,7 @@ class DataSuccess implements DataReturn {
   });
 
   @override
-  Map<String, dynamic>? body;
+  dynamic body;
 
   @override
   String? message;

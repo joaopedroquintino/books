@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/domain/usecases/usecase.dart';
-import '../../../../shared/errors/app_failure.dart';
 import '../../domain/entities/login_entity.dart';
 
 part 'login_state.dart';
@@ -13,7 +12,7 @@ class LoginCubit extends Cubit<LoginState> {
     required this.loginUseCase,
   }) : super(LoginInitialState());
 
-  final UseCase<Either<AppFailure, Unit>, LoginEntity> loginUseCase;
+  final UseCase<Unit, LoginEntity> loginUseCase;
 
   String? email;
   String? password;

@@ -23,6 +23,7 @@ class _AppWidgetState extends State<AppWidget> {
         locale: const Locale('pt-BR'),
         routerDelegate: Modular.routerDelegate,
         routeInformationParser: Modular.routeInformationParser,
+        theme: ThemeData(fontFamily: 'Heebo'),
       ),
     );
   }

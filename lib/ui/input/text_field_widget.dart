@@ -24,6 +24,7 @@ class TextFieldWidget extends StatefulWidget {
     this.maxLines = 1,
     this.autocorrect = true,
     this.maxLength,
+    this.prefixIcon,
   }) : super(key: key);
 
   final String? initialValue;
@@ -43,6 +44,7 @@ class TextFieldWidget extends StatefulWidget {
   final int maxLines;
   final bool autocorrect;
   final int? maxLength;
+  final Widget? prefixIcon;
 
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
@@ -149,6 +151,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             keyboardType: widget.keyboardType,
             autocorrect: widget.autocorrect,
             maxLength: widget.maxLength,
+            prefixIcon: widget.prefixIcon,
           ),
           errorLabel(context)
         ],
