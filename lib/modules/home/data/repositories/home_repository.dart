@@ -44,4 +44,27 @@ class HomeRepositoryImpl implements HomeRepository {
       );
     }
   }
+
+  @override
+  Future<Either<AppFailure, BookEntity>> fetchBookDetails(String id) async {
+    try {
+      final data = await _datasource.fetchBookDetails(id);
+
+      if (data is DataSuccess) {
+        final book = BookModel.fromMap(data.body as Map<String, dynamic>);
+
+        return Right(book);
+      } else {
+        return Left(
+          AppFailure(
+            message: data.message,
+          ),
+        );
+      }
+    } catch (e) {
+      return const Left(
+        AppFailure(message: 'HomeRepository fetchBookDetails decode error'),
+      );
+    }
+  }
 }

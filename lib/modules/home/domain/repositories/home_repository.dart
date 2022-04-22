@@ -9,4 +9,6 @@ abstract class HomeRepository {
     int? page,
     String? search,
   });
+
+  Future<Either<AppFailure, BookEntity>> fetchBookDetails(String id);
 }
