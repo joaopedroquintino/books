@@ -3,6 +3,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../core/local_storage/local_storage_imp.dart';
 import '../../core/local_storage/secure_storage_imp.dart';
 import '../common/data/datasources/authentication_datasource.dart';
+import '../common/data/datasources/user_datasource.dart';
+import '../common/domain/datasources/authentication_datasource.dart';
+import '../common/domain/datasources/user_datasource.dart';
 import 'data/datasources/login_datasource.dart';
 import 'data/repositories/login_repository.dart';
 import 'domain/usecases/login_usecase.dart';
@@ -12,10 +15,15 @@ import 'presentation/cubits/login_cubit.dart';
 class LoginModule extends Module {
   @override
   List<Bind> get binds => <Bind>[
-        Bind.singleton(
+        Bind.singleton<AuthenticationDatasource>(
           (i) => AuthenticationDatasourceImpl(
             secureLocalStorage: i.get<SecureStorageImp>(),
             localStorage: i.get<LocalStorageImpDao>(),
+          ),
+        ),
+        Bind.singleton<UserDataSource>(
+          (i) => UserDataSourceImpl(
+            database: i.get<LocalStorageImpDao>(),
           ),
         ),
         Bind.singleton(
@@ -27,6 +35,7 @@ class LoginModule extends Module {
           (i) => LoginRepositoryImpl(
             loginDatasource: i.get(),
             authenticationDatasource: i.get(),
+            userDataSource: i.get(),
           ),
         ),
         Bind.singleton(

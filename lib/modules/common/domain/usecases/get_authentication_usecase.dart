@@ -1,8 +1,11 @@
-import '../../../../core/domain/usecases/usecase.dart';
-import '../entities/authentication_entity.dart';
-import '../../../login/domain/repositories/authentication_repository.dart';
+import 'package:dartz/dartz.dart';
 
-class GetAuthenticationUseCase extends UseCase<AuthenticationEntity?, dynamic> {
+import '../../../../core/domain/usecases/usecase.dart';
+import '../../../../shared/errors/app_failure.dart';
+import '../entities/authentication_entity.dart';
+import '../repositories/authentication_repository.dart';
+
+class GetAuthenticationUseCase extends UseCase<AuthenticationEntity, dynamic> {
   GetAuthenticationUseCase({
     required this.authenticationRepository,
   });
@@ -10,7 +13,7 @@ class GetAuthenticationUseCase extends UseCase<AuthenticationEntity?, dynamic> {
   final AuthenticationRepository authenticationRepository;
 
   @override
-  Future<AuthenticationEntity?> call([params]) async {
+  Future<Either<AppFailure, AuthenticationEntity>> call([params]) async {
     return authenticationRepository.getAuthentication();
   }
 }

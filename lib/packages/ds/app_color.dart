@@ -5,13 +5,14 @@ class AppColor {
   Color get primary => const Color(0xFF39154B);
   Color get secondary => const Color(0xFFAB2680);
   Color get onPrimary => const Color(0xFFFFFFFF);
+  Color get tertiary => const Color(0xFFF5EFF3);
 
   Color get accent => const Color(0xFF958F8F);
   Color get background => const Color(0XFFFFFFFF);
-  Color get contrast => const Color(0xFF323738);
+  Color get contrast => const Color(0xFF333333);
   Color get dark => const Color(0xFF201E1E);
   Color get black => const Color(0xFF000000);
-  Color get gray => const Color(0xFFE7E7E7);
+  Color get gray => const Color(0xFF999999);
   Color get lightGray => const Color(0xFFF7F7F7);
   Color get error => const Color(0xFFFF0000);
   Color get white => const Color(0xFFFFFFFF);

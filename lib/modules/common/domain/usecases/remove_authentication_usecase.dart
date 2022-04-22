@@ -1,7 +1,10 @@
-import '../../../../core/domain/usecases/usecase.dart';
-import '../../../login/domain/repositories/authentication_repository.dart';
+import 'package:dartz/dartz.dart';
 
-class RemoveAuthenticationUseCase extends UseCase<bool?, dynamic> {
+import '../../../../core/domain/usecases/usecase.dart';
+import '../../../../shared/errors/app_failure.dart';
+import '../repositories/authentication_repository.dart';
+
+class RemoveAuthenticationUseCase extends UseCase<bool, dynamic> {
   RemoveAuthenticationUseCase({
     required this.authenticationRepository,
   });
@@ -9,7 +12,7 @@ class RemoveAuthenticationUseCase extends UseCase<bool?, dynamic> {
   final AuthenticationRepository authenticationRepository;
 
   @override
-  Future<bool?> call([params]) async {
+  Future<Either<AppFailure, bool>> call([params]) async {
     return authenticationRepository.removeAuthentication();
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../../packages/ds/app_system.dart';
 import '../../../../shared/logo/books_logo.dart';
+import '../../../home/home_routing.dart';
 import '../../../login/login_routing.dart';
 import 'cubits/splash_cubit.dart';
 
@@ -23,7 +24,7 @@ class SplashPage extends StatelessWidget {
         listener: (context, SplashState state) {
           if (state is SplashReadyState) {
             if (state.loggedIn) {
-              Modular.to.navigate(LoginRouteNamed.login.fullPath);
+              Modular.to.navigate(HomeRouteNamed.home.fullPath);
             } else {
               Modular.to.navigate(LoginRouteNamed.login.fullPath);
             }
