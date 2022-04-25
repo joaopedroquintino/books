@@ -29,8 +29,11 @@ class BookCard extends StatelessWidget {
           ],
           borderRadius: BorderRadius.circular(AppDS.borderRadius.xxsmall.h),
         ),
-        padding: EdgeInsets.only(
-          left: AppDS.spacing.small.w,
+        padding: EdgeInsets.fromLTRB(
+          AppDS.spacing.small.w,
+          AppDS.spacing.small.h,
+          0,
+          AppDS.spacing.small.h,
         ),
         child: Row(
           children: [
@@ -106,6 +109,7 @@ class BookCard extends StatelessWidget {
               ),
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
                   padding: EdgeInsets.only(

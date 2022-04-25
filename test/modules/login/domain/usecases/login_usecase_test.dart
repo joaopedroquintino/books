@@ -38,8 +38,9 @@ Future<void> main() async {
         final result = await _usecase(tLoginEntity);
 
         expect(result, const Right(unit));
-        verify(() => _mockRepository.authenticate(entity: tLoginEntity))
-            .called(1);
+        verify(
+          () => _mockRepository.authenticate(entity: tLoginEntity),
+        ).called(1);
 
         verifyNoMoreInteractions(_mockRepository);
       },

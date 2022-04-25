@@ -146,7 +146,6 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
                                     },
                                     itemBuilder: (context, index) {
                                       return SizedBox(
-                                        height: 160.h,
                                         width: double.infinity,
                                         child: BookCard(
                                           book: _books[index],

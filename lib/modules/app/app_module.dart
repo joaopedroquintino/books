@@ -13,7 +13,7 @@ import '../common/domain/datasources/authentication_datasource.dart';
 import '../common/domain/datasources/user_datasource.dart';
 import '../common/domain/repositories/authentication_repository.dart';
 import '../common/domain/repositories/user_repository.dart';
-import '../common/domain/usecases/fetch_ser_usecase.dart';
+import '../common/domain/usecases/fetch_user_usecase.dart';
 import '../common/domain/usecases/get_authentication_usecase.dart';
 import '../common/domain/usecases/remove_authentication_usecase.dart';
 import 'app_routing.dart';

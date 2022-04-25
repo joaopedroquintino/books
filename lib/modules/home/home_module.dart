@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import '../common/domain/usecases/fetch_ser_usecase.dart';
+import '../../core/local_storage/local_storage_imp.dart';
+import '../common/domain/usecases/fetch_user_usecase.dart';
 import '../common/domain/usecases/remove_authentication_usecase.dart';
 import 'data/datasources/home_datasource.dart';
 import 'data/repositories/home_repository.dart';
@@ -19,6 +20,7 @@ class HomeModule extends Module {
         Bind.singleton<HomeDataSource>(
           (i) => HomeDataSourceImpl(
             http: i.get(),
+            database: i.get<LocalStorageImpDao>(),
           ),
         ),
         Bind.singleton<HomeRepository>(

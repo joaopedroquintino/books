@@ -67,4 +67,17 @@ class HomeRepositoryImpl implements HomeRepository {
       );
     }
   }
+
+  @override
+  Future<Either<AppFailure, Unit>> favoriteBook(BookEntity book) async {
+    try {
+      final result = await _datasource.favoriteBook(book as BookModel);
+      if (result) {
+        return const Right(unit);
+      }
+      return const Left(AppFailure());
+    } catch (e) {
+      return const Left(AppFailure());
+    }
+  }
 }

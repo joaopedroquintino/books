@@ -11,4 +11,5 @@ abstract class HomeRepository {
   });
 
   Future<Either<AppFailure, BookEntity>> fetchBookDetails(String id);
+  Future<Either<AppFailure, Unit>> favoriteBook(BookEntity book);
 }
