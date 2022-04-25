@@ -33,6 +33,7 @@ Future<void> main() async {
       language: 'language',
       publisher: 'publisher',
       published: 2020,
+      favorite: false,
     );
     const tError = AppFailure(message: 'Erro');
     const bookId = 'asdads';

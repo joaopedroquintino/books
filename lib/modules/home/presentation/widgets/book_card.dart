@@ -7,10 +7,12 @@ class BookCard extends StatelessWidget {
     Key? key,
     required this.book,
     this.onTap,
+    this.onFavorite,
   }) : super(key: key);
 
   final BookEntity book;
   final VoidCallback? onTap;
+  final VoidCallback? onFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class BookCard extends StatelessWidget {
           AppDS.spacing.small.h,
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               decoration: BoxDecoration(
@@ -108,28 +111,27 @@ class BookCard extends StatelessWidget {
                 ),
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
+            Align(
+              alignment: Alignment.topRight,
+              child: GestureDetector(
+                onTapUp: (_) {
+                  onFavorite?.call();
+                },
+                child: Padding(
                   padding: EdgeInsets.only(
-                    top: AppDS.spacing.xxsmall.h,
-                    right: AppDS.spacing.xxsmall.w,
+                    top: AppDS.spacing.xsmall.h,
+                    right: AppDS.spacing.xsmall.w,
                   ),
-                  child: GestureDetector(
-                    onTapUp: (_) {},
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: AppDS.spacing.xxsmall.h,
-                        right: AppDS.spacing.xxsmall.w,
-                      ),
-                      child: const Icon(
-                        Icons.bookmark_border_rounded,
-                      ),
-                    ),
-                  ),
+                  child: book.favorite
+                      ? Icon(
+                          Icons.bookmark_rounded,
+                          color: AppDS.color.secondary,
+                        )
+                      : const Icon(
+                          Icons.bookmark_border_rounded,
+                        ),
                 ),
-              ],
+              ),
             ),
           ],
         ),

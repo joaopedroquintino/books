@@ -80,4 +80,34 @@ class HomeRepositoryImpl implements HomeRepository {
       return const Left(AppFailure());
     }
   }
+
+  @override
+  Future<Either<AppFailure, List<BookModel>>> fetchFavoriteBooks() async {
+    try {
+      final result = await _datasource.fetchFavoriteBooks();
+      if (result == null) {
+        return const Left(AppFailure());
+      } else {
+        final books = result.map((e) => BookModel.fromMap(e)).toList();
+        return Right(books);
+      }
+    } catch (e) {
+      return const Left(AppFailure());
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, Unit>> removeBookFromFavorites(
+      BookEntity book) async {
+    try {
+      final result =
+          await _datasource.removeBookFromFavorites(book as BookModel);
+      if (result) {
+        return const Right(unit);
+      }
+      return const Left(AppFailure());
+    } catch (e) {
+      return const Left(AppFailure());
+    }
+  }
 }

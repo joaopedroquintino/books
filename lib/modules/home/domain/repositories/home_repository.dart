@@ -12,4 +12,6 @@ abstract class HomeRepository {
 
   Future<Either<AppFailure, BookEntity>> fetchBookDetails(String id);
   Future<Either<AppFailure, Unit>> favoriteBook(BookEntity book);
+  Future<Either<AppFailure, Unit>> removeBookFromFavorites(BookEntity book);
+  Future<Either<AppFailure, List<BookEntity>>> fetchFavoriteBooks();
 }

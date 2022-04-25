@@ -62,11 +62,31 @@ class HomeDataSourceImpl implements HomeDataSource {
   @override
   Future<bool> favoriteBook(BookModel book) async {
     try {
-      final result = await _localStorage.insert(
+      await _localStorage.insert(
         _collectionName,
         book.toMap(),
       );
-      return result.data as bool;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>?> fetchFavoriteBooks() async {
+    try {
+      final result = await _localStorage.findAll(_collectionName, '');
+      return result.data as List<Map<String, dynamic>>?;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> removeBookFromFavorites(BookModel book) async {
+    try {
+      await _localStorage.deleteFromKeyId(_collectionName, 'book_id', book.id);
+      return true;
     } catch (e) {
       return false;
     }

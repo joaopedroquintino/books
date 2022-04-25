@@ -5,4 +5,6 @@ abstract class HomeDataSource {
   Future<DataReturn> fetchBooks({int? page, String? search});
   Future<DataReturn> fetchBookDetails(String id);
   Future<bool> favoriteBook(BookModel book);
+  Future<bool> removeBookFromFavorites(BookModel book);
+  Future<List<Map<String, dynamic>>?> fetchFavoriteBooks();
 }

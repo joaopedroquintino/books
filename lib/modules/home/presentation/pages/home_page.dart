@@ -149,6 +149,8 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
                                         width: double.infinity,
                                         child: BookCard(
                                           book: _books[index],
+                                          onFavorite: () =>
+                                              cubit.favoriteBook(_books[index]),
                                           onTap: () {
                                             showModalBottomSheet(
                                                 isScrollControlled: true,

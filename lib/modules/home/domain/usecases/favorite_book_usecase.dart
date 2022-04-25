@@ -13,6 +13,13 @@ class FavoriteBookUseCase extends UseCase<Unit, BookEntity> {
 
   @override
   Future<Either<AppFailure, Unit>> call([BookEntity? params]) async {
-    return _repository.favoriteBook(params!);
+    if (params == null) {
+      return const Left(AppFailure());
+    }
+    if (params.favorite) {
+      return _repository.removeBookFromFavorites(params);
+    } else {
+      return _repository.favoriteBook(params);
+    }
   }
 }

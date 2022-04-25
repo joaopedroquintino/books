@@ -34,6 +34,7 @@ Future<void> main() async {
       language: 'language',
       publisher: 'publisher',
       published: 2020,
+      favorite: false,
     );
     const paginatedEntity = PaginatedDataEntity(
       data: [tBookEntity],
