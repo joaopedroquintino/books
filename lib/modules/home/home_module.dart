@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../common/domain/usecases/fetch_ser_usecase.dart';
+import '../common/domain/usecases/remove_authentication_usecase.dart';
 import 'data/datasources/home_datasource.dart';
 import 'data/repositories/home_repository.dart';
 import 'domain/datasources/home_datasource.dart';
@@ -38,6 +39,7 @@ class HomeModule extends Module {
         Bind.factory(
           (i) => HomeCubit(
             fetchBooksUseCase: i.get<FetchBooksUseCase>(),
+            removeAuthenticationUseCase: i.get<RemoveAuthenticationUseCase>(),
           ),
         ),
         Bind.factory(

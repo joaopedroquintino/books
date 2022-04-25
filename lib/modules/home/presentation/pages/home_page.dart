@@ -6,7 +6,7 @@ import '../../../../packages/ds/app_system.dart';
 import '../../../../shared/loading/loading_widget.dart';
 import '../../../../shared/logo/books_logo.dart';
 import '../../../../ui/input/filled_text_field_widget.dart';
-import '../../home_routing.dart';
+import '../../../login/login_routing.dart';
 import '../cubits/home/home_cubit.dart';
 import '../cubits/user/user_cubit.dart';
 import '../widgets/book_card.dart';
@@ -55,7 +55,15 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         BooksLogo.horizontal(color: AppDS.color.black),
-                        const Icon(Icons.logout),
+                        IconButton(
+                          onPressed: () async {
+                            cubit.logout();
+                            Modular.to.navigate(
+                              LoginRouteNamed.login.fullPath,
+                            );
+                          },
+                          icon: const Icon(Icons.logout),
+                        ),
                       ],
                     ),
                     Padding(

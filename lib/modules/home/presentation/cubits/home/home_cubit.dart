@@ -16,11 +16,14 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit({
     required UseCase<PaginatedDataEntity<BookEntity>, FetchBooksParams?>
         fetchBooksUseCase,
+    required UseCase<bool, dynamic> removeAuthenticationUseCase,
   })  : _fetchBooksUseCase = fetchBooksUseCase,
+        _removeAuthenticationUseCase = removeAuthenticationUseCase,
         super(HomeInitialState());
 
   final UseCase<PaginatedDataEntity<BookEntity>, FetchBooksParams?>
       _fetchBooksUseCase;
+  final UseCase<bool, dynamic> _removeAuthenticationUseCase;
 
   PaginatedDataEntity<BookEntity>? books;
   String? titleSearch;
@@ -73,6 +76,10 @@ class HomeCubit extends Cubit<HomeState> {
 
       fetchBooks(title: title);
     });
+  }
+
+  void logout() {
+    _removeAuthenticationUseCase();
   }
 
   void _initDebounce({required VoidCallback callback}) {
