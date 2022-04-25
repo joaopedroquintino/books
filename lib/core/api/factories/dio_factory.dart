@@ -13,7 +13,7 @@ class DioFactory {
   static Dio instance({
     required UseCase<AuthenticationEntity, dynamic> getAuthenticationUseCase,
     required UseCase<bool, dynamic> removeAuthenticationUseCase,
-    required UseCase<AuthenticationEntity, dynamic> refreshTokenUseCase,
+    required UseCase<bool, AuthenticationEntity> saveAuthentication,
   }) {
     final Dio dio = Dio()
       ..options.baseUrl = _baseUrl
@@ -25,7 +25,7 @@ class DioFactory {
       AuthenticationInterceptor(
         getAuthenticationUseCase: getAuthenticationUseCase,
         removeAuthenticationUseCase: removeAuthenticationUseCase,
-        refreshTokenUseCase: refreshTokenUseCase,
+        saveAuthenticationUseCase: saveAuthentication,
         dio: dio,
       ),
     );

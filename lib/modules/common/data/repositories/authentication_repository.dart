@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../shared/errors/app_failure.dart';
-import '../../../login/data/dto/authentication_dto.dart';
 import '../../domain/datasources/authentication_datasource.dart';
 import '../../domain/entities/authentication_entity.dart';
 import '../../domain/repositories/authentication_repository.dart';
+import '../models/authentication_model.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   AuthenticationRepositoryImpl({
@@ -41,18 +41,19 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<AppFailure, AuthenticationEntity>> refreshToken() async {
+  Future<Either<AppFailure, bool>> saveAuthentication(
+      AuthenticationEntity authenticationEntity) async {
     try {
-      final result = await authenticationDatasource.refreshToken();
-
-      final auth = AuthenticationDTO.fromJson(result.headers!);
-      authenticationDatasource.saveAuthentication(auth);
-      return Right(
-        AuthenticationEntity(
-          authorization: auth.authorization,
-          refreshToken: auth.refreshToken,
-        ),
+      final result = await authenticationDatasource.saveAuthentication(
+        AuthenticationModel(
+            authorization: authenticationEntity.authorization,
+            refreshToken: authenticationEntity.refreshToken),
       );
+      if (result != null) {
+        return Right(result);
+      } else {
+        return const Left(AppFailure());
+      }
     } catch (e) {
       return const Left(AppFailure());
     }

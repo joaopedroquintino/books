@@ -5,15 +5,15 @@ import '../../../../shared/errors/app_failure.dart';
 import '../entities/authentication_entity.dart';
 import '../repositories/authentication_repository.dart';
 
-class RefreshTokenUseCase extends UseCase<AuthenticationEntity, dynamic> {
-  RefreshTokenUseCase({
+class SaveAuthenticationUseCase extends UseCase<bool, AuthenticationEntity> {
+  SaveAuthenticationUseCase({
     required this.authenticationRepository,
   });
 
   final AuthenticationRepository authenticationRepository;
 
   @override
-  Future<Either<AppFailure, AuthenticationEntity>> call([params]) async {
-    return authenticationRepository.refreshToken();
+  Future<Either<AppFailure, bool>> call([AuthenticationEntity? params]) async {
+    return authenticationRepository.saveAuthentication(params!);
   }
 }

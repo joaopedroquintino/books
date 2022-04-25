@@ -4,21 +4,23 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../../../modules/common/data/models/authentication_model.dart';
 import '../../../../modules/common/domain/entities/authentication_entity.dart';
 import '../../../../modules/login/login_routing.dart';
 import '../../../domain/usecases/usecase.dart';
+import '../utils/modify_dio_header.dart';
 
 class AuthenticationInterceptor implements Interceptor {
   AuthenticationInterceptor({
     required this.getAuthenticationUseCase,
     required this.removeAuthenticationUseCase,
-    required this.refreshTokenUseCase,
+    required this.saveAuthenticationUseCase,
     required this.dio,
   });
 
   final UseCase<AuthenticationEntity, dynamic> getAuthenticationUseCase;
   final UseCase<bool, dynamic> removeAuthenticationUseCase;
-  final UseCase<AuthenticationEntity, dynamic> refreshTokenUseCase;
+  final UseCase<bool, AuthenticationEntity> saveAuthenticationUseCase;
   final Dio dio;
 
   @override
@@ -64,11 +66,14 @@ class AuthenticationInterceptor implements Interceptor {
           await removeAuthenticationUseCase();
           final reqOptions = err.requestOptions;
           await refreshToken();
-          _retry(reqOptions);
+
+          final response = await dio.fetch(reqOptions);
+          handler.resolve(response);
         } catch (e) {
           Modular.to.navigate(
             LoginRouteNamed.login.fullPath,
           );
+          handler.next(err);
         }
       }
     }
@@ -85,18 +90,12 @@ class AuthenticationInterceptor implements Interceptor {
           'refreshToken': auth.refreshToken,
         },
       );
+      await saveAuthenticationUseCase(
+        AuthenticationModel.fromJson(
+          modifyDioHeader(response.headers.map),
+        ),
+      );
     });
-  }
-
-  Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
-    final options = Options(
-      method: requestOptions.method,
-      headers: requestOptions.headers,
-    );
-    return dio.request(requestOptions.path,
-        data: requestOptions.data,
-        queryParameters: requestOptions.queryParameters,
-        options: options);
   }
 
   Map<String, dynamic> headers(String token) {

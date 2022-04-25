@@ -2,13 +2,13 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../packages/data/interface/data_return.dart';
 import '../../../../shared/errors/app_failure.dart';
+import '../../../common/data/models/authentication_model.dart';
 import '../../../common/data/models/user_model.dart';
 import '../../../common/domain/datasources/authentication_datasource.dart';
 import '../../../common/domain/datasources/user_datasource.dart';
 import '../../domain/datasources/login_datasource.dart';
 import '../../domain/entities/login_entity.dart';
 import '../../domain/repositories/login_repository.dart';
-import '../dto/authentication_dto.dart';
 import '../dto/login_dto.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
@@ -33,7 +33,7 @@ class LoginRepositoryImpl implements LoginRepository {
       );
       final result = await loginDatasource.authenticate(loginDTO);
       if (result != null && result is DataSuccess) {
-        final authenticationDTO = AuthenticationDTO.fromJson(result.headers!);
+        final authenticationDTO = AuthenticationModel.fromJson(result.headers!);
         final user = UserModel.fromJson(result.body as Map<String, dynamic>);
 
         await authenticationDatasource.deleteAuthentication();

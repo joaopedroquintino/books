@@ -13,10 +13,10 @@ import '../common/domain/datasources/authentication_datasource.dart';
 import '../common/domain/datasources/user_datasource.dart';
 import '../common/domain/repositories/authentication_repository.dart';
 import '../common/domain/repositories/user_repository.dart';
-import '../common/domain/usecases/fetch_ser_usecase.dart';
+import '../common/domain/usecases/fetch_user_usecase.dart';
 import '../common/domain/usecases/get_authentication_usecase.dart';
-import '../common/domain/usecases/refresh_token_usecase.dart';
 import '../common/domain/usecases/remove_authentication_usecase.dart';
+import '../common/domain/usecases/save_authentication_usecase.dart';
 import 'app_routing.dart';
 
 class AppModule extends Module {
@@ -26,7 +26,7 @@ class AppModule extends Module {
           (i) => DioFactory.instance(
             getAuthenticationUseCase: i.get<GetAuthenticationUseCase>(),
             removeAuthenticationUseCase: i.get<RemoveAuthenticationUseCase>(),
-            refreshTokenUseCase: i.get<RefreshTokenUseCase>(),
+            saveAuthentication: i.get<SaveAuthenticationUseCase>(),
           ),
         ),
         Bind.lazySingleton<HttpDio>(
@@ -71,8 +71,8 @@ class AppModule extends Module {
             authenticationRepository: i.get(),
           ),
         ),
-        Bind.lazySingleton<RefreshTokenUseCase>(
-          (i) => RefreshTokenUseCase(
+        Bind.lazySingleton<SaveAuthenticationUseCase>(
+          (i) => SaveAuthenticationUseCase(
             authenticationRepository: i.get(),
           ),
         ),
