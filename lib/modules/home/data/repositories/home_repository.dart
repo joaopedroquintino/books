@@ -17,10 +17,12 @@ class HomeRepositoryImpl implements HomeRepository {
   final HomeDataSource _datasource;
 
   @override
-  Future<Either<AppFailure, PaginatedDataEntity<BookEntity>>> fetchBooks(
-      [int? page]) async {
+  Future<Either<AppFailure, PaginatedDataEntity<BookEntity>>> fetchBooks({
+    int? page,
+    String? search,
+  }) async {
     try {
-      final data = await _datasource.fetchBooks(page);
+      final data = await _datasource.fetchBooks(page: page, search: search);
 
       if (data is DataSuccess) {
         final paginatedData = PaginatedDataModel.fromMap(
@@ -39,6 +41,29 @@ class HomeRepositoryImpl implements HomeRepository {
     } catch (e) {
       return const Left(
         AppFailure(message: 'HomeRepository fetchBooks decode error'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, BookEntity>> fetchBookDetails(String id) async {
+    try {
+      final data = await _datasource.fetchBookDetails(id);
+
+      if (data is DataSuccess) {
+        final book = BookModel.fromMap(data.body as Map<String, dynamic>);
+
+        return Right(book);
+      } else {
+        return Left(
+          AppFailure(
+            message: data.message,
+          ),
+        );
+      }
+    } catch (e) {
+      return const Left(
+        AppFailure(message: 'HomeRepository fetchBookDetails decode error'),
       );
     }
   }

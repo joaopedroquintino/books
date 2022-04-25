@@ -5,6 +5,10 @@ import '../../../common/domain/entities/paginated_data_entity.dart';
 import '../entities/book_entity.dart';
 
 abstract class HomeRepository {
-  Future<Either<AppFailure, PaginatedDataEntity<BookEntity>>> fetchBooks(
-      [int? page]);
+  Future<Either<AppFailure, PaginatedDataEntity<BookEntity>>> fetchBooks({
+    int? page,
+    String? search,
+  });
+
+  Future<Either<AppFailure, BookEntity>> fetchBookDetails(String id);
 }
