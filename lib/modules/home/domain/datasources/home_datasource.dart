@@ -1,5 +1,6 @@
 import '../../../../packages/data/interface/data_return.dart';
 
 abstract class HomeDataSource {
-  Future<DataReturn> fetchBooks([int? page]);
+  Future<DataReturn> fetchBooks({int? page, String? search});
+  Future<DataReturn> fetchBookDetails(String id);
 }

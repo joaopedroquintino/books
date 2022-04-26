@@ -6,9 +6,11 @@ import '../../../../packages/ds/app_system.dart';
 import '../../../../shared/loading/loading_widget.dart';
 import '../../../../shared/logo/books_logo.dart';
 import '../../../../ui/input/filled_text_field_widget.dart';
+import '../../../login/login_routing.dart';
 import '../cubits/home/home_cubit.dart';
 import '../cubits/user/user_cubit.dart';
 import '../widgets/book_card.dart';
+import 'book_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,6 +37,7 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },
+        behavior: HitTestBehavior.translucent,
         child: SafeArea(
           child: Column(
             children: [
@@ -52,7 +55,15 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         BooksLogo.horizontal(color: AppDS.color.black),
-                        const Icon(Icons.logout),
+                        IconButton(
+                          onPressed: () async {
+                            cubit.logout();
+                            Modular.to.navigate(
+                              LoginRouteNamed.login.fullPath,
+                            );
+                          },
+                          icon: const Icon(Icons.logout),
+                        ),
                       ],
                     ),
                     Padding(
@@ -87,9 +98,12 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
                         },
                       ),
                     ),
-                    const FilledTextFieldWidget(
+                    FilledTextFieldWidget(
                       placeholder: 'Buscar livro',
-                      prefixIcon: Icon(CupertinoIcons.search),
+                      prefixIcon: const Icon(CupertinoIcons.search),
+                      onChanged: (text) {
+                        cubit.searchBooks(text);
+                      },
                     ),
                     SizedBox(height: AppDS.spacing.xsmall.h),
                   ],
@@ -134,7 +148,21 @@ class _HomePageState extends ModularState<HomePage, HomeCubit> {
                                       return SizedBox(
                                         height: 160.h,
                                         width: double.infinity,
-                                        child: BookCard(book: _books[index]),
+                                        child: BookCard(
+                                          book: _books[index],
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    AppDS.color.transparent,
+                                                context: context,
+                                                builder: (context) {
+                                                  return BookDetailsPage(
+                                                    id: _books[index].id,
+                                                  );
+                                                });
+                                          },
+                                        ),
                                       );
                                     }),
                               ),

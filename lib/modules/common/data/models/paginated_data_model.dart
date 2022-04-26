@@ -18,13 +18,12 @@ class PaginatedDataModel<T> extends PaginatedDataEntity<T> {
     required T Function(Map<String, dynamic>) itemMapper,
   }) {
     return PaginatedDataModel<T>(
-      data: (map['data'] as List?)
-              ?.map((x) => itemMapper(x as Map<String, dynamic>))
-              .toList() ??
-          [],
-      page: (map['page'] as num?)?.toInt() ?? 0,
-      totalPages: (map['totalPages'] as num?)?.toInt() ?? 0,
-      totalItems: (map['totalItems'] as num?)?.toInt() ?? 0,
+      data: (map['data'] as List)
+          .map((x) => itemMapper(x as Map<String, dynamic>))
+          .toList(),
+      page: (map['page'] as num).toInt(),
+      totalPages: (map['totalPages'] as num).toInt(),
+      totalItems: (map['totalItems'] as num).toInt(),
     );
   }
 }
