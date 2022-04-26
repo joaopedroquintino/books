@@ -17,9 +17,10 @@ class FavoriteBookUseCase extends UseCase<Unit, BookEntity> {
       return const Left(AppFailure());
     }
     if (params.favorite) {
-      return _repository.removeBookFromFavorites(params);
+      return _repository
+          .removeBookFromFavorites(params.copyWith(favorite: false));
     } else {
-      return _repository.favoriteBook(params);
+      return _repository.favoriteBook(params.copyWith(favorite: true));
     }
   }
 }

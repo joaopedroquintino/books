@@ -97,23 +97,16 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> favoriteBook(BookEntity book) async {
     final result = await _favoriteBookUseCase(book);
 
-    result.fold(
+    await result.fold(
       (l) => null,
-      (r) {
-        emit(HomeInitialState());
-        // final bookIndex = books!.data.indexWhere((e) => e.id == book.id);
-        // final _newBooks = books?.data
-        //   ?..replaceRange(bookIndex, bookIndex + 1, <BookModel>[
-        //     (book as BookModel).copyWith(favorite: !book.favorite)
-        //   ]);
-        // books = books?.copyWith(data: _newBooks);
-        _updateFavorites();
-        emit(HomeSuccessState());
+      (r) async {
+        await _updateFavorites();
       },
     );
   }
 
   Future<void> _updateFavorites() async {
+    emit(HomeInitialState());
     final resultFavorites = await _fetchFavoriteBooksUseCase();
     resultFavorites.fold(
       (l) => null,
@@ -128,6 +121,7 @@ class HomeCubit extends Cubit<HomeState> {
         );
       },
     );
+    emit(HomeSuccessState());
   }
 
   void _initDebounce({required VoidCallback callback}) {

@@ -13,6 +13,7 @@ import 'domain/usecases/fetch_books_usecase.dart';
 import 'domain/usecases/fetch_favorite_books_usecase.dart';
 import 'home_routing.dart';
 import 'presentation/cubits/book_details/book_details_cubit.dart';
+import 'presentation/cubits/favorite/favorite_cubit.dart';
 import 'presentation/cubits/home/home_cubit.dart';
 import 'presentation/cubits/user/user_cubit.dart';
 
@@ -54,6 +55,12 @@ class HomeModule extends Module {
           (i) => HomeCubit(
             fetchBooksUseCase: i.get<FetchBooksUseCase>(),
             removeAuthenticationUseCase: i.get<RemoveAuthenticationUseCase>(),
+            favoriteBookUseCase: i.get<FavoriteBookUseCase>(),
+            fetchFavoriteBooksUseCase: i.get<FetchFavoriteBooksUseCase>(),
+          ),
+        ),
+        Bind.factory(
+          (i) => FavoriteCubit(
             favoriteBookUseCase: i.get<FavoriteBookUseCase>(),
             fetchFavoriteBooksUseCase: i.get<FetchFavoriteBooksUseCase>(),
           ),
