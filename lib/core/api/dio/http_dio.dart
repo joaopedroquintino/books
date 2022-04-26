@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../errors/app_exception.dart';
 import '../interface/http.dart';
 import '../interface/http_response.dart';
+import 'utils/modify_dio_header.dart';
 
 class HttpDio extends Http {
   HttpDio({
@@ -28,7 +29,7 @@ class HttpDio extends Http {
 
       return HttpResponse(
         body: response.data,
-        headers: _modifyDioHeader(response.headers.map),
+        headers: modifyDioHeader(response.headers.map),
         statusCode: response.statusCode,
       );
     } on DioError catch (_) {
@@ -55,7 +56,7 @@ class HttpDio extends Http {
 
       return HttpResponse(
         body: response.data,
-        headers: _modifyDioHeader(response.headers.map),
+        headers: modifyDioHeader(response.headers.map),
         statusCode: response.statusCode,
       );
     } on DioError catch (e) {
@@ -74,18 +75,5 @@ class HttpDio extends Http {
       }
       rethrow;
     }
-  }
-
-  /// This method modify headers because the returns is <String,List<String>>
-  /// instead of <String,String>.
-  Map<String, String> _modifyDioHeader(Map<String, List<String>> headers) {
-    return headers.map<String, String>(
-      (String key, List<String> value) {
-        return MapEntry<String, String>(
-          key,
-          value[0],
-        );
-      },
-    );
   }
 }

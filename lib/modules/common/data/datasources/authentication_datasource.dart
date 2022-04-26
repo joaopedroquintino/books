@@ -1,9 +1,9 @@
 import '../../../../core/local_storage/local_storage.dart';
-import '../../../login/data/dto/authentication_dto.dart';
 import '../../domain/datasources/authentication_datasource.dart';
+import '../models/authentication_model.dart';
 
 class AuthenticationDatasourceImpl implements AuthenticationDatasource {
-  AuthenticationDatasourceImpl({
+  const AuthenticationDatasourceImpl({
     required LocalStorage localStorage,
     required LocalStorage secureLocalStorage,
   })  : _db = localStorage,
@@ -11,18 +11,19 @@ class AuthenticationDatasourceImpl implements AuthenticationDatasource {
 
   final LocalStorage _secureDb;
   final LocalStorage _db;
-  String collectionName = 'authentication';
+
+  static const String _collectionName = 'authentication';
 
   @override
-  Future<AuthenticationDTO?> getAuthentication() async {
+  Future<AuthenticationModel?> getAuthentication() async {
     try {
       await _clearSecureStorageOnReinstall();
-      final result = await _secureDb.findAll(collectionName, '');
+      final result = await _secureDb.findAll(_collectionName, '');
       final Map<String, dynamic> resultMap = result.data != null
           ? result.data as Map<String, dynamic>
           : <String, dynamic>{};
       if (resultMap.isNotEmpty) {
-        return AuthenticationDTO.fromJson(resultMap);
+        return AuthenticationModel.fromJson(resultMap);
       }
       return null;
     } catch (e) {
@@ -31,10 +32,10 @@ class AuthenticationDatasourceImpl implements AuthenticationDatasource {
   }
 
   @override
-  Future<bool> saveAuthentication(AuthenticationDTO dto) async {
+  Future<bool> saveAuthentication(AuthenticationModel dto) async {
     try {
       final result = await _secureDb.insert(
-        collectionName,
+        _collectionName,
         dto.toJson(),
       );
       return result.data as bool;
@@ -46,7 +47,7 @@ class AuthenticationDatasourceImpl implements AuthenticationDatasource {
   @override
   Future<bool> deleteAuthentication() async {
     try {
-      final result = await _secureDb.clearCollection(collectionName);
+      final result = await _secureDb.clearCollection(_collectionName);
       return result.data as bool;
     } catch (e) {
       rethrow;
@@ -58,7 +59,7 @@ class AuthenticationDatasourceImpl implements AuthenticationDatasource {
     final result = await _db.findAll(key, key);
 
     if (result.data == null) {
-      _secureDb.clearCollection(collectionName);
+      _secureDb.clearCollection(_collectionName);
       _db.insert(
         key,
         {
