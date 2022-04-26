@@ -1,6 +1,7 @@
 import '../../../../core/api/errors/app_exception.dart';
 import '../../../../core/api/interface/http.dart';
 import '../../../../core/local_storage/local_storage.dart';
+import '../../../../core/local_storage/result_storage.dart';
 import '../../../../packages/data/interface/data_return.dart';
 import '../../domain/datasources/home_datasource.dart';
 import '../models/book_model.dart';
@@ -62,11 +63,15 @@ class HomeDataSourceImpl implements HomeDataSource {
   @override
   Future<bool> favoriteBook(BookModel book) async {
     try {
-      await _localStorage.insert(
+      final result = await _localStorage.insert(
         _collectionName,
         book.toMap(),
       );
-      return true;
+      if (result is SuccessData) {
+        return result.data as bool;
+      } else {
+        return false;
+      }
     } catch (e) {
       return false;
     }
@@ -85,8 +90,13 @@ class HomeDataSourceImpl implements HomeDataSource {
   @override
   Future<bool> removeBookFromFavorites(BookModel book) async {
     try {
-      await _localStorage.deleteFromKeyId(_collectionName, 'book_id', book.id);
-      return true;
+      final result = await _localStorage.deleteFromKeyId(
+          _collectionName, 'book_id', book.id);
+      if (result is SuccessData) {
+        return result.data as bool;
+      } else {
+        return false;
+      }
     } catch (e) {
       return false;
     }
