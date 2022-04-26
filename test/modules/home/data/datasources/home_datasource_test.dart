@@ -1,6 +1,7 @@
 import 'package:books/core/api/errors/app_exception.dart';
 import 'package:books/core/api/interface/http.dart';
 import 'package:books/core/api/interface/http_response.dart';
+import 'package:books/core/local_storage/local_storage.dart';
 import 'package:books/modules/home/data/datasources/home_datasource.dart';
 import 'package:books/modules/home/domain/datasources/home_datasource.dart';
 import 'package:books/packages/data/interface/data_return.dart';
@@ -9,13 +10,17 @@ import 'package:test/test.dart';
 
 class MockHttp extends Mock implements Http {}
 
+class MockDatabase extends Mock implements LocalStorage {}
+
 Future<void> main() async {
   late MockHttp _mockHttp;
+  late MockDatabase _mockDatabase;
   late HomeDataSource _datasource;
 
   setUp(() {
     _mockHttp = MockHttp();
-    _datasource = HomeDataSourceImpl(http: _mockHttp);
+    _mockDatabase = MockDatabase();
+    _datasource = HomeDataSourceImpl(http: _mockHttp, database: _mockDatabase);
   });
 
   group('HomeDataSource fetchBooks', () {

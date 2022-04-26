@@ -1,17 +1,18 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
+import 'package:sembast_web/sembast_web.dart';
 
-class SembestStorage {
-  SembestStorage._();
+class SembastStorage {
+  SembastStorage._();
 
-  static SembestStorage? _singleton;
+  static SembastStorage? _singleton;
 
-  static SembestStorage get instance => _singleton ??= SembestStorage._();
+  static SembastStorage get instance => _singleton ??= SembastStorage._();
 
   Completer<Database>? _dbOpenCompleter;
 
@@ -25,11 +26,15 @@ class SembestStorage {
   }
 
   Future<void> _openDatabase() async {
-    final Directory documentDirectory =
-        await getApplicationDocumentsDirectory();
-    final String dbPath = join(documentDirectory.path, 'sembest_db');
-
-    final Database database = await databaseFactoryIo.openDatabase(dbPath);
-    _dbOpenCompleter!.complete(database);
+    if (kIsWeb) {
+      final Database database = await databaseFactoryWeb.openDatabase('books');
+      _dbOpenCompleter!.complete(database);
+    } else {
+      final Directory documentDirectory =
+          await getApplicationDocumentsDirectory();
+      final String dbPath = join(documentDirectory.path, 'sembest_db');
+      final Database database = await databaseFactoryIo.openDatabase(dbPath);
+      _dbOpenCompleter!.complete(database);
+    }
   }
 }

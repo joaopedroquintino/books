@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../core/domain/usecases/usecase.dart';
@@ -17,18 +18,25 @@ class HomeCubit extends Cubit<HomeState> {
     required UseCase<PaginatedDataEntity<BookEntity>, FetchBooksParams?>
         fetchBooksUseCase,
     required UseCase<bool, dynamic> removeAuthenticationUseCase,
+    required UseCase<Unit, BookEntity> favoriteBookUseCase,
+    required UseCase<List<BookEntity>, dynamic> fetchFavoriteBooksUseCase,
   })  : _fetchBooksUseCase = fetchBooksUseCase,
         _removeAuthenticationUseCase = removeAuthenticationUseCase,
+        _favoriteBookUseCase = favoriteBookUseCase,
+        _fetchFavoriteBooksUseCase = fetchFavoriteBooksUseCase,
         super(HomeInitialState());
 
   final UseCase<PaginatedDataEntity<BookEntity>, FetchBooksParams?>
       _fetchBooksUseCase;
   final UseCase<bool, dynamic> _removeAuthenticationUseCase;
+  final UseCase<Unit, BookEntity> _favoriteBookUseCase;
+  final UseCase<List<BookEntity>, dynamic> _fetchFavoriteBooksUseCase;
 
   PaginatedDataEntity<BookEntity>? books;
   String? titleSearch;
 
   Timer? _debounce;
+  List<BookEntity>? favoriteBooks;
 
   Future<void> fetchBooks({bool reset = false, String? title}) async {
     bool _reset = reset;
@@ -40,16 +48,20 @@ class HomeCubit extends Cubit<HomeState> {
     if (state is HomeLoadingState && title == null) {
       return;
     }
+    if (_reset) {
+      books = null;
+    }
 
     emit(HomeLoadingState());
+
     final int _page = (_reset ? 0 : (books?.page ?? 0)) + 1;
     final result = await _fetchBooksUseCase(
         FetchBooksParams(page: _page, search: titleSearch));
 
-    result.fold(
-      (error) =>
+    await result.fold<Future>(
+      (error) async =>
           emit(HomeErrorState(message: error.message ?? 'Erro desconhecido')),
-      (paginatedData) {
+      (paginatedData) async {
         if (_reset) {
           books = null;
         }
@@ -59,7 +71,7 @@ class HomeCubit extends Cubit<HomeState> {
           totalItems: paginatedData.totalItems,
           totalPages: paginatedData.totalPages,
         );
-
+        await _updateFavorites();
         emit(HomeSuccessState());
       },
     );
@@ -80,6 +92,36 @@ class HomeCubit extends Cubit<HomeState> {
 
   void logout() {
     _removeAuthenticationUseCase();
+  }
+
+  Future<void> favoriteBook(BookEntity book) async {
+    final result = await _favoriteBookUseCase(book);
+
+    await result.fold(
+      (l) => null,
+      (r) async {
+        await _updateFavorites();
+      },
+    );
+  }
+
+  Future<void> _updateFavorites() async {
+    emit(HomeInitialState());
+    final resultFavorites = await _fetchFavoriteBooksUseCase();
+    resultFavorites.fold(
+      (l) => null,
+      (r) {
+        favoriteBooks = r;
+        books = books?.copyWith(
+          data: books?.data.map((e) {
+            return (e as BookModel).copyWith(
+              favorite: favoriteBooks?.any((element) => element.id == e.id),
+            );
+          }).toList(),
+        );
+      },
+    );
+    emit(HomeSuccessState());
   }
 
   void _initDebounce({required VoidCallback callback}) {

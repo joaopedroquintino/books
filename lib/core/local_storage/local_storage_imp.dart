@@ -5,7 +5,7 @@ import 'result_storage.dart';
 import 'sembest_storage.dart';
 
 class LocalStorageImpDao implements LocalStorage {
-  Future<Database> get _db async => SembestStorage.instance.database;
+  Future<Database> get _db async => SembastStorage.instance.database;
 
   @override
   Future<ResultStorage> clearCollection(
