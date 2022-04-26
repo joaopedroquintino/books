@@ -1,5 +1,7 @@
-class LoginDTO {
-  LoginDTO({
+import 'package:equatable/equatable.dart';
+
+class LoginDTO extends Equatable {
+  const LoginDTO({
     this.username,
     this.password,
   });
@@ -21,4 +23,7 @@ class LoginDTO {
 
     return map;
   }
+
+  @override
+  List<Object?> get props => [username, password];
 }

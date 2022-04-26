@@ -1,5 +1,7 @@
-class AuthenticationDTO {
-  AuthenticationDTO({
+import 'package:equatable/equatable.dart';
+
+class AuthenticationDTO extends Equatable {
+  const AuthenticationDTO({
     required this.authorization,
     required this.refreshToken,
   });
@@ -21,4 +23,7 @@ class AuthenticationDTO {
 
     return map;
   }
+
+  @override
+  List<Object?> get props => [authorization, refreshToken];
 }
