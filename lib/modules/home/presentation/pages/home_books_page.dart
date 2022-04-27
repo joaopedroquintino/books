@@ -101,6 +101,20 @@ class HomeBooksPage extends StatelessWidget {
             builder: (context, HomeState state) {
               if (cubit.books != null) {
                 final _books = cubit.books!.data;
+
+                if (state is HomeSuccessState && _books.isEmpty) {
+                  return Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppDS.spacing.huge.w,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Nenhum livro encontrado',
+                      textAlign: TextAlign.center,
+                      style: AppDS.fonts.headline,
+                    ),
+                  );
+                }
                 return RefreshIndicator(
                   onRefresh: () async {
                     cubit.fetchBooks(reset: true);
