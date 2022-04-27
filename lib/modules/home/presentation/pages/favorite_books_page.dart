@@ -77,7 +77,7 @@ class FavoriteBooksPage extends StatelessWidget {
                 placeholder: 'Procure um livro',
                 prefixIcon: const Icon(CupertinoIcons.search),
                 onChanged: (text) {
-                  // cubit.searchBooks(text);
+                  favoriteCubit.filterBooks(text);
                 },
               ),
               SizedBox(height: AppDS.spacing.xsmall.h),
@@ -97,7 +97,9 @@ class FavoriteBooksPage extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      'Ainda não há nada aqui. Comece favoritando um livro',
+                      favoriteCubit.favoriteBooks.isEmpty
+                          ? 'Ainda não há nada aqui. Comece favoritando um livro'
+                          : 'Nenhum livro encontrado',
                       textAlign: TextAlign.center,
                       style: AppDS.fonts.headline,
                     ),

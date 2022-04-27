@@ -18,6 +18,8 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   final UseCase<List<BookEntity>, dynamic> _fetchFavoriteBooksUseCase;
   final UseCase<Unit, BookEntity> _favoriteBookUseCase;
 
+  List<BookEntity> favoriteBooks = [];
+
   Future<void> fetchFavoriteBooks() async {
     emit(FavoriteLoadingState());
     final resultFavorites = await _fetchFavoriteBooksUseCase();
@@ -27,6 +29,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
             message: 'Houve um erro ao buscar os seus livros favoritos.'),
       ),
       (r) {
+        favoriteBooks = r;
         emit(FavoriteSuccessState(books: r));
       },
     );
@@ -41,5 +44,22 @@ class FavoriteCubit extends Cubit<FavoriteState> {
         await fetchFavoriteBooks();
       },
     );
+  }
+
+  Future<void> filterBooks(String text) async {
+    if (state is! FavoriteSuccessState) {
+      return;
+    }
+    if (text.isEmpty) {
+      emit(FavoriteSuccessState(books: favoriteBooks));
+      return;
+    }
+    emit(FavoriteLoadingState());
+    final books = favoriteBooks
+        .where((element) => element.title.toLowerCase().contains(
+              text.toLowerCase(),
+            ))
+        .toList();
+    emit(FavoriteSuccessState(books: books));
   }
 }
