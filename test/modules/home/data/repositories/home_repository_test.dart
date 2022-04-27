@@ -11,6 +11,8 @@ import 'package:test/test.dart';
 
 class MockDataSource extends Mock implements HomeDataSource {}
 
+class FakeBookModel extends Fake implements BookModel {}
+
 Future<void> main() async {
   late MockDataSource _mockDataSource;
   late HomeRepository _repository;
@@ -18,6 +20,7 @@ Future<void> main() async {
   setUp(() {
     _mockDataSource = MockDataSource();
     _repository = HomeRepositoryImpl(homeDataSource: _mockDataSource);
+    registerFallbackValue(FakeBookModel());
   });
 
   group('HomeRepository fetchBooks', () {
@@ -131,7 +134,119 @@ Future<void> main() async {
       verifyNoMoreInteractions(_mockDataSource);
     });
   });
+
+  group('HomeRepository fetchFavoriteBooks', () {
+    test('should return Right when calling fetchFavoriteBooks successfully',
+        () async {
+      when(
+        () => _mockDataSource.fetchFavoriteBooks(),
+      ).thenAnswer((invocation) async => _favoriteBooks);
+
+      final result = await _repository.fetchFavoriteBooks();
+
+      expect(result, isA<Right>());
+
+      verify(() => _mockDataSource.fetchFavoriteBooks()).called(1);
+      verifyNoMoreInteractions(_mockDataSource);
+    });
+
+    test('should return Left<AppFailure> on fail fetchFavoriteBooks', () async {
+      when(
+        () => _mockDataSource.fetchFavoriteBooks(),
+      ).thenAnswer((invocation) async => null);
+
+      final result = await _repository.fetchFavoriteBooks();
+
+      expect(result, const Left(AppFailure()));
+
+      verify(() => _mockDataSource.fetchFavoriteBooks()).called(1);
+      verifyNoMoreInteractions(_mockDataSource);
+    });
+  });
+
+  group('HomeRepository favoriteBook', () {
+    final bookModel = BookModel.fromMap(_bookDetailsReturn);
+    test('should return Right when calling favoriteBook successfully',
+        () async {
+      when(
+        () => _mockDataSource.favoriteBook(any()),
+      ).thenAnswer((invocation) async => true);
+
+      final result = await _repository.favoriteBook(bookModel);
+
+      expect(result, isA<Right>());
+
+      verify(() => _mockDataSource.favoriteBook(bookModel)).called(1);
+      verifyNoMoreInteractions(_mockDataSource);
+    });
+
+    test('should return Left<AppFailure> on fail favoriteBook', () async {
+      when(
+        () => _mockDataSource.favoriteBook(any()),
+      ).thenAnswer((invocation) async => false);
+
+      final result = await _repository.favoriteBook(bookModel);
+
+      expect(result, const Left(AppFailure()));
+
+      verify(() => _mockDataSource.favoriteBook(bookModel)).called(1);
+      verifyNoMoreInteractions(_mockDataSource);
+    });
+  });
+
+  group('HomeRepository removeBookFromFavorites', () {
+    final bookModel = BookModel.fromMap(_bookDetailsReturn);
+    test(
+        'should return Right when calling removeBookFromFavorites successfully',
+        () async {
+      when(
+        () => _mockDataSource.removeBookFromFavorites(any()),
+      ).thenAnswer((invocation) async => true);
+
+      final result = await _repository.removeBookFromFavorites(bookModel);
+
+      expect(result, isA<Right>());
+
+      verify(() => _mockDataSource.removeBookFromFavorites(bookModel))
+          .called(1);
+      verifyNoMoreInteractions(_mockDataSource);
+    });
+
+    test('should return Left<AppFailure> on fail removeBookFromFavorites',
+        () async {
+      when(
+        () => _mockDataSource.removeBookFromFavorites(any()),
+      ).thenAnswer((invocation) async => false);
+
+      final result = await _repository.removeBookFromFavorites(bookModel);
+
+      expect(result, const Left(AppFailure()));
+
+      verify(() => _mockDataSource.removeBookFromFavorites(bookModel))
+          .called(1);
+      verifyNoMoreInteractions(_mockDataSource);
+    });
+  });
 }
+
+final _favoriteBooks = [
+  {
+    'id': '8f41b92c7460b9337660427e',
+    'title': 'A Culpa é das Estrelas',
+    'description':
+        'Hazel foi diagnosticada com câncer aos treze anos e agora, aos dezesseis, sobrevive graças a uma droga revolucionária que detém a metástase em seus pulmões. Ela sabe que sua doença é terminal e passa os dias vendo tevê e lendo Uma aflição imperial, livro cujo autor deixou muitas perguntas sem resposta. ',
+    'authors': ['Jonh Green'],
+    'pageCount': 288,
+    'category': 'Romance',
+    'imageUrl': 'https://d2drtqy2ezsot0.cloudfront.net/Book-0.jpg',
+    'isbn10': '0062856626',
+    'isbn13': '978-0062856623',
+    'language': 'Inglês',
+    'publisher': 'Intrínseca',
+    'published': 2002,
+    'favorite': true,
+  }
+];
 
 final _booksReturn = {
   'data': [
