@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../../packages/ds/app_system.dart';
@@ -54,30 +55,32 @@ class _MobileHomePageState extends ModularState<MobileHomePage, HomeCubit> {
           child: pages[currentPage],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentPage,
-        onTap: (page) {
-          setState(() {
-            currentPage = page;
-            if (page == 1) {
-              favoriteCubit.fetchFavoriteBooks();
-            }
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: 'Início',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'Favoritos',
-          )
-        ],
-        backgroundColor: AppDS.color.contrast,
-        selectedItemColor: AppDS.color.white,
-        unselectedItemColor: AppDS.color.white.withOpacity(.5),
-      ),
+      bottomNavigationBar: kIsWeb
+          ? null
+          : BottomNavigationBar(
+              currentIndex: currentPage,
+              onTap: (page) {
+                setState(() {
+                  currentPage = page;
+                  if (page == 1) {
+                    favoriteCubit.fetchFavoriteBooks();
+                  }
+                });
+              },
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_filled),
+                  label: 'Início',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.bookmark),
+                  label: 'Favoritos',
+                )
+              ],
+              backgroundColor: AppDS.color.contrast,
+              selectedItemColor: AppDS.color.white,
+              unselectedItemColor: AppDS.color.white.withOpacity(.5),
+            ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../../../../packages/ds/app_system.dart';
 import '../../domain/entities/book_entity.dart';
 import '../pages/book_details_page.dart';
@@ -36,7 +38,8 @@ class BooksListWidget extends StatelessWidget {
             width: double.infinity,
             child: BookCard(
               book: books[index],
-              onFavorite: () => onFavoriteBook?.call(books[index]),
+              onFavorite:
+                  kIsWeb ? null : () => onFavoriteBook?.call(books[index]),
               onTap: () {
                 showModalBottomSheet(
                     isScrollControlled: true,

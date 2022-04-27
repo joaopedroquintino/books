@@ -111,28 +111,29 @@ class BookCard extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                onTapUp: (_) {
-                  onFavorite?.call();
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: AppDS.spacing.xsmall.h,
-                    right: AppDS.spacing.xsmall.w,
+            if (onFavorite != null)
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTapUp: (_) {
+                    onFavorite?.call();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: AppDS.spacing.xsmall.h,
+                      right: AppDS.spacing.xsmall.w,
+                    ),
+                    child: book.favorite
+                        ? Icon(
+                            Icons.bookmark_rounded,
+                            color: AppDS.color.secondary,
+                          )
+                        : const Icon(
+                            Icons.bookmark_border_rounded,
+                          ),
                   ),
-                  child: book.favorite
-                      ? Icon(
-                          Icons.bookmark_rounded,
-                          color: AppDS.color.secondary,
-                        )
-                      : const Icon(
-                          Icons.bookmark_border_rounded,
-                        ),
                 ),
               ),
-            ),
           ],
         ),
       ),
